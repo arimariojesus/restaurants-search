@@ -13,6 +13,7 @@ import {
   Container,
   Search,
   Logo,
+  MapContainer,
   Carousel,
   CarouselTitle,
   ModalTitle,
@@ -89,7 +90,9 @@ const Home = () => {
           />
         ))}
       </Container>
-      <Map query={query} placeId={placeId} />
+      <MapContainer>
+        <Map query={query} placeId={placeId} />
+      </MapContainer>
       <Modal open={modalOpened} onClose={() => setModalOpened(!modalOpened)}>
         {restaurantSelected ? (
           <>

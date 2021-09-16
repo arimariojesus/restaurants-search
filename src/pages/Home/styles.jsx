@@ -21,6 +21,7 @@ export const Search = styled.section`
   justify-content: center;
   background-color: #fff;
   padding: 1rem;
+  font-size: 1.6rem;
 `;
 
 export const Logo = styled.img`
@@ -29,9 +30,10 @@ export const Logo = styled.img`
   margin-bottom: 1.5rem;
 `;
 
-export const Map = styled.div`
-  background-color: red;
-  width: 500px;
+export const MapContainer = styled.div`
+  width: 100%;
+  position: relative;
+  flex: 1;
 `;
 
 export const Carousel = styled(Slider)`

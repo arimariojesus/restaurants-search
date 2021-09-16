@@ -11,18 +11,6 @@ export const MapContainer = (props) => {
   const [map, setMap] = useState(null);
   const { google, query, placeId } = props;
 
-  useEffect(() => {
-    if (query) {
-      searchByQuery(map, query);
-    }
-  }, [searchByQuery, map, query]);
-
-  useEffect(() => {
-    if (placeId) {
-      getRestaurantById(placeId);
-    }
-  }, [placeId, getRestaurantById]);
-
   const getRestaurantById = useCallback(
     (placeId) => {
       const service = new google.maps.places.PlacesService(map);
@@ -62,6 +50,18 @@ export const MapContainer = (props) => {
     },
     [dispatch, google]
   );
+
+  useEffect(() => {
+    if (query) {
+      searchByQuery(map, query);
+    }
+  }, [searchByQuery, map, query]);
+
+  useEffect(() => {
+    if (placeId) {
+      getRestaurantById(placeId);
+    }
+  }, [placeId, getRestaurantById]);
 
   function searchNearby(map, center) {
     const service = new google.maps.places.PlacesService(map);
