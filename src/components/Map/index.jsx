@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GoogleApiWrapper, Map, Marker } from 'google-maps-react';
 
@@ -23,39 +23,45 @@ export const MapContainer = (props) => {
     }
   }, [placeId, getRestaurantById]);
 
-  function getRestaurantById(placeId) {
-    const service = new google.maps.places.PlacesService(map);
-    dispatch(setRestaurant(null));
+  const getRestaurantById = useCallback(
+    (placeId) => {
+      const service = new google.maps.places.PlacesService(map);
+      dispatch(setRestaurant(null));
 
-    const request = {
-      placeId,
-      fields: ['name', 'opening_hours', 'formatted_address', 'formatted_phone_number'],
-    };
+      const request = {
+        placeId,
+        fields: ['name', 'opening_hours', 'formatted_address', 'formatted_phone_number'],
+      };
 
-    service.getDetails(request, (place, status) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        dispatch(setRestaurant(place));
-      }
-    });
-  }
+      service.getDetails(request, (place, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          dispatch(setRestaurant(place));
+        }
+      });
+    },
+    [google, map, dispatch]
+  );
 
-  function searchByQuery(map, query) {
-    const service = new google.maps.places.PlacesService(map);
-    dispatch(setRestaurants([]));
+  const searchByQuery = useCallback(
+    (map, query) => {
+      const service = new google.maps.places.PlacesService(map);
+      dispatch(setRestaurants([]));
 
-    const request = {
-      location: map.center,
-      radius: '200',
-      type: ['restaurant'],
-      query,
-    };
+      const request = {
+        location: map.center,
+        radius: '200',
+        type: ['restaurant'],
+        query,
+      };
 
-    service.textSearch(request, (results, status) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        dispatch(setRestaurants(results));
-      }
-    });
-  }
+      service.textSearch(request, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          dispatch(setRestaurants(results));
+        }
+      });
+    },
+    [dispatch, google]
+  );
 
   function searchNearby(map, center) {
     const service = new google.maps.places.PlacesService(map);
