@@ -13,15 +13,15 @@ export const MapContainer = (props) => {
 
   useEffect(() => {
     if (query) {
-      searchByQuery(query);
+      searchByQuery(map, query);
     }
-  }, [query]);
+  }, [searchByQuery, map, query]);
 
   useEffect(() => {
     if (placeId) {
       getRestaurantById(placeId);
     }
-  }, [placeId]);
+  }, [placeId, getRestaurantById]);
 
   function getRestaurantById(placeId) {
     const service = new google.maps.places.PlacesService(map);
@@ -39,7 +39,7 @@ export const MapContainer = (props) => {
     });
   }
 
-  function searchByQuery(query) {
+  function searchByQuery(map, query) {
     const service = new google.maps.places.PlacesService(map);
     dispatch(setRestaurants([]));
 
